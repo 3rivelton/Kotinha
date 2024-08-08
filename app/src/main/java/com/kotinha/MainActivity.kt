@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun HomePage(modifier: Modifier = Modifier) {
     KotinhaTheme {
