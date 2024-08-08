@@ -70,6 +70,7 @@ fun LoginPage(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { email = it }
         )
+        Spacer(modifier = Modifier.size(24.dp))
         OutlinedTextField(
             value = password,
             label = { Text(text = "Digite sua senha") },
@@ -81,11 +82,13 @@ fun LoginPage(modifier: Modifier = Modifier) {
             Button(
                 onClick = {
                     Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
+                    activity?.startActivity( Intent(activity, MainActivity::class.java).setFlags( FLAG_ACTIVITY_SINGLE_TOP ) )
                 },
                 enabled = email.isNotEmpty() && password.isNotEmpty()
             ) {
                 Text("Login")
             }
+            Spacer(modifier = Modifier.size(24.dp))
             Button(
                 onClick = { email = ""; password = "" }
             ) {
