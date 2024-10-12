@@ -1,6 +1,6 @@
 package com.kotinha.db.fb
 
-import com.weatherapp.model.User
+import com.kotinha.model.User
 
 class FBUser {
     var name: String? = null

@@ -10,7 +10,7 @@ import com.kotinha.MainViewModel
 import com.kotinha.repo.Repository
 import com.kotinha.ui.HomePage
 import com.kotinha.ui.ListPage
-import com.kotinha.ui.MapPage
+import com.kotinha.ui.UserPage
 
 @Composable
 fun MainNavHost(
@@ -21,15 +21,14 @@ fun MainNavHost(
     context: Context
 ) {
     NavHost(navController, startDestination = BottomNavItem.HomePageKt.route) {
-    // composable (route = NOME DESTA DESTINAÇÃO) { UI DA DESTINAÇÃO }
         composable(route = BottomNavItem.HomePageKt.route) {
             HomePage(viewModel, modifier)
         }
         composable(route = BottomNavItem.ListPageKt.route) {
             ListPage(viewModel, repository, context, navController)
         }
-        composable(route = BottomNavItem.MapPageKt.route) {
-            MapPage(viewModel, repository, context)
+        composable(route = BottomNavItem.UserPageKt.route) {
+            UserPage(viewModel, context)
         }
     }
 }

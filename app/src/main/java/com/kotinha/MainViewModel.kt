@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.kotinha.model.City
+import com.kotinha.model.Ticket
 import com.kotinha.model.User
 import com.kotinha.repo.Repository
 
@@ -16,10 +16,10 @@ class MainViewModel : ViewModel(), Repository.Listener {
     val user : User
         get() = _user.value
 
-    private var _city = mutableStateOf<City?>(null)
-    var city: City?
-        get() = _city.value
-        set(tmp) { _city = mutableStateOf(tmp?.copy()) }
+    private var _ticket = mutableStateOf<Ticket?>(null)
+    var ticket: Ticket?
+        get() = _ticket.value
+        set(tmp) { _ticket = mutableStateOf(tmp?.copy()) }
 
     private var _loggedIn = mutableStateOf(false)
     val loggedIn: Boolean
@@ -34,9 +34,9 @@ class MainViewModel : ViewModel(), Repository.Listener {
         Firebase . auth . addAuthStateListener (listener)
     }
 
-    private val _cities = mutableStateMapOf<String, City>()
-    val cities : List<City>
-        get() = _cities.values.toList()
+    private val _tickets = mutableStateMapOf<String, Ticket>()
+    val tickets : List<Ticket>
+        get() = _tickets.values.toList()
 
     override fun onCleared() {
         Firebase.auth.removeAuthStateListener(listener)
@@ -46,20 +46,20 @@ class MainViewModel : ViewModel(), Repository.Listener {
         _user.value = user
     }
 
-    override fun onCityAdded(city: City) {
-        _cities[city.name] = city
+    override fun onTicketAdded(ticket: Ticket) {
+        _tickets[ticket.local] = ticket
     }
 
-    override fun onCityRemoved(city: City) {
-        _cities.remove(city.name)
+    override fun onTicketRemoved(ticket: Ticket) {
+        _tickets.remove(ticket.local)
     }
 
-    override fun onCityUpdated(city: City) {
-        _cities.remove(city.name)
-        _cities[city.name] = city.copy()
+    override fun onTicketUpdated(ticket: Ticket) {
+        _tickets.remove(ticket.local)
+        _tickets[ticket.local] = ticket.copy()
 
-        if (_city.value?.name == city.name) {
-            _city.value = city.copy()
+        if (_ticket.value?.local == ticket.local) {
+            _ticket.value = ticket.copy()
         }
     }
 }

@@ -16,7 +16,7 @@ fun BottomNavBar(navController: NavHostController) {
     val items = listOf(
         BottomNavItem.HomePageKt,
         BottomNavItem.ListPageKt,
-        BottomNavItem.MapPageKt,
+        BottomNavItem.UserPageKt,
         )
     NavigationBar(
         contentColor = Color.Black

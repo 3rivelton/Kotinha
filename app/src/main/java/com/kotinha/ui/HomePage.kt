@@ -12,10 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.kotinha.MainViewModel
 import com.kotinha.ui.theme.KotinhaTheme
 
 @Composable
-fun HomePage(modifier: Modifier = Modifier) {
+fun HomePage(
+    viewModel: MainViewModel,
+    modifier: Modifier
+) {
     KotinhaTheme {
 
         val activity = LocalContext.current as? Activity
@@ -26,15 +30,6 @@ fun HomePage(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Button(
-                onClick = {
-                    Toast.makeText(activity, "Saindo", Toast.LENGTH_LONG).show()
-                    activity?.finish()
-                }
-            )
-            {
-                Text("Sair")
-            }
         }
 
     }

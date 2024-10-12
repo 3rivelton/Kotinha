@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import com.weatherapp.R
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -23,15 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import com.weatherapp.model.City
-import com.weatherapp.MainViewModel
-import com.weatherapp.repo.Repository
-import com.weatherapp.ui.nav.BottomNavItem
+import com.kotinha.MainViewModel
+import com.kotinha.model.Ticket
+import com.kotinha.repo.Repository
+import com.kotinha.ui.nav.BottomNavItem
 
 
 @Composable
@@ -44,19 +41,16 @@ fun ListPage(
 
     val activity = LocalContext.current as? Activity
 
-    val cityList = viewModel.cities
+    val ticketList = viewModel.tickets
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        items(cityList) { city ->
-            if (city.weather == null) {
-                repository.loadWeather(city)
-            }
-            CityItem(city = city, onClose = {
-                viewModel.city = city
-                repository.loadForecast(city)
+        items(ticketList) { ticket ->
+            TicketItem(ticket = ticket, onClose = {
+                viewModel.ticket = ticket
                 navController.navigate(BottomNavItem.HomePageKt.route) {
                     navController.graph.startDestinationRoute?.let {
                         popUpTo(it) { saveState = true }
@@ -72,8 +66,8 @@ fun ListPage(
 }
 
 @Composable
-fun CityItem(
-    city: City,
+fun TicketItem(
+    ticket: Ticket,
     onClick: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
@@ -85,22 +79,16 @@ fun CityItem(
             .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AsyncImage(
-            model = city.weather?.imgUrl,
-            modifier = Modifier.size(75.dp),
-            error = painterResource(id = R.drawable.loading),
-            contentDescription = "Imagem"
-        )
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {
             Text(
                 modifier = Modifier,
-                text = city.name,
+                text = ticket.local,
                 fontSize = 24.sp
             )
             Text(
                 modifier = Modifier,
-                text = city.weather?.desc ?: "carregando...",
+                text = ticket.valor.toString(),
                 fontSize = 16.sp
             )
         }
