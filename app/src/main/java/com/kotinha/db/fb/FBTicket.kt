@@ -1,7 +1,6 @@
 package com.kotinha.db.fb
 
 import com.kotinha.model.Ticket
-import java.util.UUID
 
 class FBTicket {
 
@@ -12,7 +11,7 @@ class FBTicket {
 
     fun toTicket(): Ticket {
         return Ticket(
-            id = id ?: UUID.randomUUID().toString(),
+            id = id ?: "",
             dataCompra = dataCompra ?: "",
             local = local ?: "",
             valor = valor ?: ""

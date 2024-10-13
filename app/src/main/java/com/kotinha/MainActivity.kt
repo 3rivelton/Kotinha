@@ -30,7 +30,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.kotinha.repo.Repository
 import com.kotinha.ui.TicketDialog
-
 import com.kotinha.ui.nav.BottomNavBar
 import com.kotinha.ui.nav.BottomNavItem
 import com.kotinha.ui.nav.MainNavHost
@@ -58,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 if (showDialog.value) TicketDialog(
                     onDismiss = { showDialog.value = false },
                     onConfirm = { ticket ->
-                        if (ticket.local.isNotBlank()) repo.addTicket(ticket.dataCompra, ticket.local, ticket.valor)
+                        if (ticket.local.isNotBlank()) repo.addTicket(ticket)
                         showDialog.value = false
                     })
                 Scaffold(

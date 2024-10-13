@@ -1,6 +1,5 @@
 package com.kotinha.ui
 
-import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -21,25 +20,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.kotinha.MainViewModel
 import com.kotinha.model.Ticket
-import com.kotinha.repo.Repository
 import com.kotinha.ui.nav.BottomNavItem
 
 
 @Composable
 fun ListPage(
     viewModel: MainViewModel,
-    repository: Repository,
+//    repository: Repository,
     context: Context,
     navController: NavHostController
 ) {
-
-    val activity = LocalContext.current as? Activity
 
     val ticketList = viewModel.tickets
 
@@ -88,7 +83,12 @@ fun TicketItem(
             )
             Text(
                 modifier = Modifier,
-                text = ticket.valor.toString(),
+                text = ticket.dataCompra,
+                fontSize = 20.sp
+            )
+            Text(
+                modifier = Modifier,
+                text = ticket.valor,
                 fontSize = 16.sp
             )
         }

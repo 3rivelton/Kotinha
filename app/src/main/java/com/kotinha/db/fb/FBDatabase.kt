@@ -7,16 +7,21 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.firestore
 import com.kotinha.model.Ticket
 import com.kotinha.model.User
+import com.kotinha.MainViewModel
 
-class FBDatabase(private val listener: Listener? = null) {
+class FBDatabase(
+    private val listener: Listener? = null
+) {
 
     private val auth = Firebase.auth
     private val db = Firebase.firestore
     private var ticketsListReg: ListenerRegistration? = null
 
+
     interface Listener {
         fun onUserLoaded(user: User)
         fun onTicketAdded(ticket: Ticket)
+        fun onTicketUpdated(ticket: Ticket)
         fun onTicketRemoved(ticket: Ticket)
     }
 
@@ -56,16 +61,20 @@ class FBDatabase(private val listener: Listener? = null) {
         if (auth.currentUser == null)
             throw RuntimeException("User not logged in!")
         val uid = auth.currentUser!!.uid
-        db.collection ("users").document(uid + "").set(user.toFBUser());
+        db.collection ("users").document(uid + "").set(user.toFBUser())
     }
 
     fun add(ticket: Ticket) {
         if (auth.currentUser == null)
             throw RuntimeException("User not logged in!")
         val uid = auth.currentUser!!.uid
-        val ticketId = ticket.id
         db.collection ("users").document(uid).collection("tickets")
-            .document(ticketId).set(ticket.toFBTicket())
+            .add(ticket.toFBTicket())
+            .addOnSuccessListener { documentReference ->
+                val generatedId = documentReference.id
+                val ticketId = ticket.copy(id = generatedId)
+                listener?.onTicketUpdated(ticketId)
+            }
     }
 
     fun remove(ticket: Ticket) {

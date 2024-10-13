@@ -31,7 +31,7 @@ class MainViewModel : ViewModel(), Repository.Listener {
     }
     init {
         listener.onAuthStateChanged(Firebase.auth)
-        Firebase . auth . addAuthStateListener (listener)
+        Firebase.auth.addAuthStateListener (listener)
     }
 
     private val _tickets = mutableStateMapOf<String, Ticket>()
@@ -47,18 +47,18 @@ class MainViewModel : ViewModel(), Repository.Listener {
     }
 
     override fun onTicketAdded(ticket: Ticket) {
-        _tickets[ticket.local] = ticket
+        _tickets[ticket.id] = ticket
     }
 
     override fun onTicketRemoved(ticket: Ticket) {
-        _tickets.remove(ticket.local)
+        _tickets.remove(ticket.id)
     }
 
     override fun onTicketUpdated(ticket: Ticket) {
-        _tickets.remove(ticket.local)
-        _tickets[ticket.local] = ticket.copy()
+        _tickets.remove("")
+        _tickets[ticket.id] = ticket.copy()
 
-        if (_ticket.value?.local == ticket.local) {
+        if (_ticket.value?.id == ticket.id) {
             _ticket.value = ticket.copy()
         }
     }

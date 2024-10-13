@@ -27,15 +27,8 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
     }
 
 
-    fun addTicket(dataCompra: String, local: String, valor: String) {
-        fbDb.add(
-            Ticket(
-                id = "",
-                dataCompra  = dataCompra,
-                local = local,
-                valor = valor
-            )
-        )
+    fun addTicket(ticket: Ticket) {
+        fbDb.add(ticket)
     }
 
 
@@ -45,6 +38,10 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
 
     override fun onTicketAdded(ticket: Ticket) {
         listener.onTicketAdded(ticket)
+    }
+
+    override fun onTicketUpdated(ticket: Ticket) {
+        listener.onTicketUpdated(ticket)
     }
 
     override fun onTicketRemoved(ticket: Ticket) {
