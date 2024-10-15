@@ -25,13 +25,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.kotinha.MainViewModel
 import com.kotinha.model.Ticket
+import com.kotinha.repo.Repository
 import com.kotinha.ui.nav.BottomNavItem
 
 
 @Composable
 fun ListPage(
     viewModel: MainViewModel,
-//    repository: Repository,
+    repository: Repository,
     context: Context,
     navController: NavHostController
 ) {
@@ -45,14 +46,7 @@ fun ListPage(
     ) {
         items(ticketList) { ticket ->
             TicketItem(ticket = ticket, onClose = {
-                viewModel.ticket = ticket
-                navController.navigate(BottomNavItem.HomePageKt.route) {
-                    navController.graph.startDestinationRoute?.let {
-                        popUpTo(it) { saveState = true }
-                        restoreState = true
-                    }
-                    launchSingleTop = true
-                }
+                viewModel.remove(ticket)
             }, onClick = {
                 Toast.makeText(context, "favorito", Toast.LENGTH_LONG).show()
             })

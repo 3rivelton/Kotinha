@@ -1,7 +1,7 @@
 package com.kotinha.model
 
 data class Ticket(
-    val id: String,
+    val id: String? = null,
     var dataCompra: String,
     var local: String,
     var valor: String,

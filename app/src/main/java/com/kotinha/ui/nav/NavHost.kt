@@ -25,7 +25,7 @@ fun MainNavHost(
             HomePage(viewModel, modifier)
         }
         composable(route = BottomNavItem.ListPageKt.route) {
-            ListPage(viewModel, context, navController)
+            ListPage(viewModel, repository, context, navController)
         }
         composable(route = BottomNavItem.UserPageKt.route) {
             UserPage(viewModel, context)

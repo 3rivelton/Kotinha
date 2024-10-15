@@ -61,18 +61,26 @@ class FBDatabase(
         if (auth.currentUser == null)
             throw RuntimeException("User not logged in!")
         val uid = auth.currentUser!!.uid
-        db.collection ("users").document(uid + "").set(user.toFBUser())
+        db.collection("users").document(uid + "").set(user.toFBUser())
     }
 
     fun add(ticket: Ticket) {
         if (auth.currentUser == null)
             throw RuntimeException("User not logged in!")
+
         val uid = auth.currentUser!!.uid
-        db.collection ("users").document(uid).collection("tickets")
+
+        db.collection("users").document(uid).collection("tickets")
             .add(ticket.toFBTicket())
             .addOnSuccessListener { documentReference ->
+
                 val generatedId = documentReference.id
+
                 val ticketId = ticket.copy(id = generatedId)
+
+                db.collection("users").document(uid).collection("tickets")
+                    .document(generatedId).set(ticketId)
+
                 listener?.onTicketUpdated(ticketId)
             }
     }
@@ -81,7 +89,7 @@ class FBDatabase(
         if (auth.currentUser == null)
             throw RuntimeException("User not logged in!")
         val uid = auth.currentUser!!.uid
-        db.collection ("users").document(uid).collection("tickets")
-                .document(ticket.local).delete()
+        db.collection("users").document(uid).collection("tickets")
+            .document(ticket.local).delete()
     }
 }
