@@ -4,5 +4,5 @@ data class Ticket(
     val id: String? = null,
     var dataCompra: String,
     var local: String,
-    var valor: String,
+    var valor: Double,
 )

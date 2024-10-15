@@ -7,14 +7,14 @@ class FBTicket {
     var id: String? = null
     var dataCompra: String? = null
     var local: String? = null
-    var valor: String? = null
+    var valor: Double? = null
 
     fun toTicket(): Ticket {
         return Ticket(
             id = id ?: "",
             dataCompra = dataCompra ?: "",
             local = local ?: "",
-            valor = valor ?: ""
+            valor = valor ?: 0.00
         )
     }
 }

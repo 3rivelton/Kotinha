@@ -90,6 +90,6 @@ class FBDatabase(
             throw RuntimeException("User not logged in!")
         val uid = auth.currentUser!!.uid
         db.collection("users").document(uid).collection("tickets")
-            .document(ticket.local).delete()
+            .document(ticket.id.toString()).delete()
     }
 }

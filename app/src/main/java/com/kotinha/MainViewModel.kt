@@ -9,6 +9,8 @@ import com.google.firebase.auth.auth
 import com.kotinha.model.Ticket
 import com.kotinha.model.User
 import com.kotinha.repo.Repository
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainViewModel : ViewModel(), Repository.Listener {
 
@@ -36,9 +38,23 @@ class MainViewModel : ViewModel(), Repository.Listener {
         Firebase.auth.addAuthStateListener(listener)
     }
 
+//    private val _tickets = mutableStateMapOf<String, Ticket>()
+//    val tickets: List<Ticket>
+//        get() = _tickets.values.toList()
+
     private val _tickets = mutableStateMapOf<String, Ticket>()
     val tickets: List<Ticket>
-        get() = _tickets.values.toList()
+        get() {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            return _tickets.values
+                .sortedBy { ticket ->
+                    try {
+                        dateFormat.parse(ticket.dataCompra)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+        }
 
     override fun onCleared() {
         Firebase.auth.removeAuthStateListener(listener)

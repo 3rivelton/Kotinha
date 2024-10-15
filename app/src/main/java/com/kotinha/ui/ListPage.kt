@@ -46,7 +46,7 @@ fun ListPage(
     ) {
         items(ticketList) { ticket ->
             TicketItem(ticket = ticket, onClose = {
-                viewModel.remove(ticket)
+                repository.remove(ticket)
             }, onClick = {
                 Toast.makeText(context, "favorito", Toast.LENGTH_LONG).show()
             })
@@ -82,7 +82,7 @@ fun TicketItem(
             )
             Text(
                 modifier = Modifier,
-                text = ticket.valor,
+                text = "R$ " + ticket.valor.toString().replace(".", ","),
                 fontSize = 16.sp
             )
         }

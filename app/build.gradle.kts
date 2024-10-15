@@ -14,6 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.kotinha"
         minSdk = 24
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -62,8 +63,9 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.material)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
