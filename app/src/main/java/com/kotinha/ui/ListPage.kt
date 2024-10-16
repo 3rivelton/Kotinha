@@ -1,5 +1,6 @@
 package com.kotinha.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -26,8 +27,6 @@ import androidx.navigation.NavHostController
 import com.kotinha.MainViewModel
 import com.kotinha.model.Ticket
 import com.kotinha.repo.Repository
-import com.kotinha.ui.nav.BottomNavItem
-
 
 @Composable
 fun ListPage(
@@ -47,13 +46,21 @@ fun ListPage(
         items(ticketList) { ticket ->
             TicketItem(ticket = ticket, onClose = {
                 repository.remove(ticket)
+                Toast.makeText(context, "Ticket removido com sucesso", Toast.LENGTH_SHORT).show()
             }, onClick = {
-                Toast.makeText(context, "favorito", Toast.LENGTH_LONG).show()
+                navController.navigate("ticket_page/${ticket.id}") {
+                    navController.graph.startDestinationRoute?.let {
+                        popUpTo(it) { saveState = true }
+                    }
+                    restoreState = true
+                    launchSingleTop = true
+                }
             })
         }
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun TicketItem(
     ticket: Ticket,
@@ -82,7 +89,7 @@ fun TicketItem(
             )
             Text(
                 modifier = Modifier,
-                text = "R$ " + ticket.valor.toString().replace(".", ","),
+                text = "R$ " + String.format("%.2f", ticket.valor).replace(".", ","),
                 fontSize = 16.sp
             )
         }

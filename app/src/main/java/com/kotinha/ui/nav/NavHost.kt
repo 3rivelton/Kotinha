@@ -10,6 +10,7 @@ import com.kotinha.MainViewModel
 import com.kotinha.repo.Repository
 import com.kotinha.ui.HomePage
 import com.kotinha.ui.ListPage
+import com.kotinha.ui.TicketPage
 import com.kotinha.ui.UserPage
 
 @Composable
@@ -29,6 +30,15 @@ fun MainNavHost(
         }
         composable(route = BottomNavItem.UserPageKt.route) {
             UserPage(viewModel, context)
+        }
+        composable("ticket_page/{ticketId}") { backStackEntry ->
+            val ticketId = backStackEntry.arguments?.getString("ticketId")
+            ticketId?.let {
+                val ticket = viewModel.getTicketById(it)
+                if (ticket != null) {
+                    TicketPage(ticket)
+                }
+            }
         }
     }
 }

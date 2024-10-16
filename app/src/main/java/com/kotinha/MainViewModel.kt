@@ -73,6 +73,10 @@ class MainViewModel : ViewModel(), Repository.Listener {
         _totalTickets.doubleValue = somaTotalTickets()
     }
 
+    fun getTicketById(ticketId: String): Ticket? {
+        return _tickets[ticketId]
+    }
+
     override fun onTicketAdded(ticket: Ticket) {
         if (!ticket.id.isNullOrBlank()) {
             _tickets[ticket.id.toString()] = ticket
