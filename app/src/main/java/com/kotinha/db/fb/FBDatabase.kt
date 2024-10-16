@@ -6,6 +6,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import com.kotinha.model.Ticket
@@ -17,6 +18,7 @@ class FBDatabase(
     private val auth = Firebase.auth
     private val db = Firebase.firestore
     private val storage = Firebase.storage
+    private val storageRef: StorageReference = storage.reference
     private var ticketsListReg: ListenerRegistration? = null
 
     interface Listener {
@@ -96,7 +98,6 @@ class FBDatabase(
 
     fun uploadImage(fileUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
 
-        val storageRef: StorageReference = storage.reference
         val imagesRef: StorageReference = storageRef.child("images/${fileUri.lastPathSegment}")
 
         val uploadTask = imagesRef.putFile(fileUri)
@@ -106,6 +107,16 @@ class FBDatabase(
             }
         }.addOnFailureListener {
             onFailure(it)
+        }
+    }
+
+    fun removeImage(fileUri: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        val imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(fileUri)
+
+        imageRef.delete().addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener { exception ->
+            onFailure(exception)
         }
     }
 }

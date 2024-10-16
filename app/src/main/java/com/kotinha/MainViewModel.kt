@@ -1,6 +1,5 @@
 package com.kotinha
 
-import android.net.Uri
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -73,21 +72,6 @@ class MainViewModel : ViewModel(), Repository.Listener {
     private fun updateTotalTickets() {
         _totalTickets.doubleValue = somaTotalTickets()
     }
-
-//    fun addTicketWithImage(ticket: Ticket, imageUri: Uri?) {
-//        if (imageUri != null) {
-//            listener.uploadImage(imageUri, { imageUrl ->
-//                val ticketWithImage = ticket.copy(imageUrl = imageUrl)
-//                // Adicionar o ticket ao Firestore ou onde está armazenando
-//                repository.add(ticketWithImage)
-//            }, {
-//                // Lidar com falha no upload
-//            })
-//        } else {
-//            // Se não houver imagem, adicionar o ticket normalmente
-//            repository.add(ticket)
-//        }
-//    }
 
     override fun onTicketAdded(ticket: Ticket) {
         if (!ticket.id.isNullOrBlank()) {

@@ -16,10 +16,6 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
         fun onTicketUpdated(ticket: Ticket)
     }
 
-    fun remove(ticket: Ticket) {
-        fbDb.remove(ticket)
-    }
-
     fun register(userName: String, email: String) {
         fbDb.register(User(userName, email))
     }
@@ -37,8 +33,24 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
         }
     }
 
+    fun remove(ticket: Ticket) {
+        if (!ticket.imageUrl.isNullOrEmpty()) {
+            removeImage(ticket.imageUrl, {
+                fbDb.remove(ticket)
+            }, {
+                it.printStackTrace()
+            })
+        } else {
+            fbDb.remove(ticket)
+        }
+    }
+
     private fun uploadImage(fileUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit){
         fbDb.uploadImage(fileUri, onSuccess, onFailure)
+    }
+
+    private fun removeImage(fileUri: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        fbDb.removeImage(fileUri, onSuccess, onFailure)
     }
 
     override fun onUserLoaded(user: User) {

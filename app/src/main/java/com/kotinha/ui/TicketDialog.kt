@@ -36,7 +36,7 @@ import com.kotinha.model.Ticket
 @Composable
 fun TicketDialog(
     onDismiss: () -> Unit,
-    onConfirm: (ticket: Ticket, fileUri: Uri?) -> Unit
+    onConfirm: (ticket: Ticket, imageUri: Uri?) -> Unit
 ) {
     val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
     val calendar = remember { Calendar.getInstance() }
@@ -108,13 +108,17 @@ fun TicketDialog(
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 imageUri.value?.let { uri ->
-                    Text(text = "Imagem selecionada$uri")
+                    Text(text = "Imagem selecionada $uri")
                 }
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
                     onClick = {
-                        val ticket = Ticket(id = "", dataCompra = dataCompra.value, local = local.value, valor= valor.value.toDoubleOrNull() ?: 0.00)
+                        val ticket = Ticket(
+                            id = "",
+                            dataCompra = dataCompra.value,
+                            local = local.value,
+                            valor= valor.value.toDoubleOrNull() ?: 0.00)
                         onConfirm(ticket, imageUri.value)
                     },
                     modifier = Modifier
