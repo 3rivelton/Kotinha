@@ -7,16 +7,13 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.firestore
 import com.kotinha.model.Ticket
 import com.kotinha.model.User
-import com.kotinha.MainViewModel
 
 class FBDatabase(
     private val listener: Listener? = null
 ) {
-
     private val auth = Firebase.auth
     private val db = Firebase.firestore
     private var ticketsListReg: ListenerRegistration? = null
-
 
     interface Listener {
         fun onUserLoaded(user: User)

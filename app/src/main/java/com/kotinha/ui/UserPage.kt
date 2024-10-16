@@ -27,7 +27,7 @@ fun UserPage(
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Favoritas",
+            text = "Usuarios",
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),

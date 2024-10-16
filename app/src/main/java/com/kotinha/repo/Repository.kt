@@ -1,15 +1,12 @@
 package com.kotinha.repo
 
-
 import com.kotinha.db.fb.FBDatabase
 import com.kotinha.model.Ticket
 
 import com.kotinha.model.User
 
-
 class Repository(private var listener: Listener) : FBDatabase.Listener {
     private var fbDb = FBDatabase(this)
-
 
     interface Listener {
         fun onUserLoaded(user: User)
@@ -26,11 +23,9 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
         fbDb.register(User(userName, email))
     }
 
-
     fun addTicket(ticket: Ticket) {
         fbDb.add(ticket)
     }
-
 
     override fun onUserLoaded(user: User) {
         listener.onUserLoaded(user)
@@ -47,5 +42,4 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
     override fun onTicketRemoved(ticket: Ticket) {
         listener.onTicketRemoved(ticket)
     }
-
 }
