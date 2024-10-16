@@ -1,5 +1,6 @@
 package com.kotinha.repo
 
+import android.net.Uri
 import com.kotinha.db.fb.FBDatabase
 import com.kotinha.model.Ticket
 
@@ -23,8 +24,21 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
         fbDb.register(User(userName, email))
     }
 
-    fun addTicket(ticket: Ticket) {
-        fbDb.add(ticket)
+    fun addTicket(ticket: Ticket, fileUri: Uri?) {
+        if (fileUri != null) {
+            uploadImage(fileUri, { imageUrl ->
+                val updatedTicket = ticket.copy(imageUrl = imageUrl)
+                fbDb.add(updatedTicket)
+            }, {
+                it.printStackTrace()
+            })
+        } else {
+            fbDb.add(ticket)
+        }
+    }
+
+    private fun uploadImage(fileUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit){
+        fbDb.uploadImage(fileUri, onSuccess, onFailure)
     }
 
     override fun onUserLoaded(user: User) {

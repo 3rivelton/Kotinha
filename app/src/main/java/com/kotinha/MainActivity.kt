@@ -56,8 +56,8 @@ class MainActivity : ComponentActivity() {
             KotinhaTheme {
                 if (showDialog.value) TicketDialog(
                     onDismiss = { showDialog.value = false },
-                    onConfirm = { ticket ->
-                        if (ticket.local.isNotBlank()) repo.addTicket(ticket)
+                    onConfirm = { ticket, uri ->
+                        if (ticket.local.isNotBlank()) repo.addTicket(ticket, uri)
                         showDialog.value = false
                     })
                 Scaffold(

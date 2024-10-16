@@ -4,6 +4,9 @@ import android.app.DatePickerDialog
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.icu.util.Calendar
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,13 +36,18 @@ import com.kotinha.model.Ticket
 @Composable
 fun TicketDialog(
     onDismiss: () -> Unit,
-    onConfirm: (ticket: Ticket) -> Unit
+    onConfirm: (ticket: Ticket, fileUri: Uri?) -> Unit
 ) {
     val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
     val calendar = remember { Calendar.getInstance() }
     val dataCompra = remember { mutableStateOf(dateFormat.format(calendar.time)) }
     val local = remember { mutableStateOf("") }
     val valor = remember { mutableStateOf("") }
+    val imageUri = remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? -> imageUri.value = uri }
+    )
     val context = LocalContext.current
 
     val openDatePicker = {
@@ -73,11 +81,11 @@ fun TicketDialog(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { openDatePicker() }, // Trigger DatePicker on click
+                        .clickable { openDatePicker() },
                     label = { Text(text = "Data da Compra") },
                     value = dataCompra.value,
                     onValueChange = { },
-                    enabled = false // Prevent manual input, only use DatePicker
+                    enabled = false
                 )
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -95,10 +103,19 @@ fun TicketDialog(
                     onValueChange = { valor.value = it.replace(",", ".") })
                 Spacer(modifier = Modifier.height(20.dp))
 
+                Button(onClick = { launcher.launch("image/*") }) {
+                    Text(text = "Selecionar Imagem")
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                imageUri.value?.let { uri ->
+                    Text(text = "Imagem selecionada$uri")
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+
                 Button(
                     onClick = {
                         val ticket = Ticket(id = "", dataCompra = dataCompra.value, local = local.value, valor= valor.value.toDoubleOrNull() ?: 0.00)
-                        onConfirm(ticket)
+                        onConfirm(ticket, imageUri.value)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

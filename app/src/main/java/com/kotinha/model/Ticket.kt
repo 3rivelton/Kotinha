@@ -5,4 +5,5 @@ data class Ticket(
     var dataCompra: String,
     var local: String,
     var valor: Double,
+    val imageUrl: String? = null
 )

@@ -1,10 +1,13 @@
 package com.kotinha.db.fb
 
+import android.net.Uri
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.storage
 import com.kotinha.model.Ticket
 import com.kotinha.model.User
 
@@ -13,6 +16,7 @@ class FBDatabase(
 ) {
     private val auth = Firebase.auth
     private val db = Firebase.firestore
+    private val storage = Firebase.storage
     private var ticketsListReg: ListenerRegistration? = null
 
     interface Listener {
@@ -88,5 +92,20 @@ class FBDatabase(
         val uid = auth.currentUser!!.uid
         db.collection("users").document(uid).collection("tickets")
             .document(ticket.id.toString()).delete()
+    }
+
+    fun uploadImage(fileUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+
+        val storageRef: StorageReference = storage.reference
+        val imagesRef: StorageReference = storageRef.child("images/${fileUri.lastPathSegment}")
+
+        val uploadTask = imagesRef.putFile(fileUri)
+        uploadTask.addOnSuccessListener {
+            imagesRef.downloadUrl.addOnSuccessListener { uri ->
+                onSuccess(uri.toString())
+            }
+        }.addOnFailureListener {
+            onFailure(it)
+        }
     }
 }
