@@ -69,6 +69,13 @@ class MainViewModel : ViewModel(), Repository.Listener {
         return _tickets.values.sumOf { it.valor }
     }
 
+    fun ticketsPorLocal(tickets: List<Ticket>): List<Pair<String, Float>> {
+        return tickets.groupBy { it.local }
+            .map { entry ->
+                entry.key to entry.value.sumOf { it.valor }.toFloat()
+            }
+    }
+
     private fun updateTotalTickets() {
         _totalTickets.doubleValue = somaTotalTickets()
     }

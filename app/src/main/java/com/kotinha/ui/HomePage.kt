@@ -8,31 +8,40 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.kotinha.MainViewModel
 import com.kotinha.R
-import com.kotinha.ui.theme.KotinhaTheme
+import com.kotinha.ui.component.HorizontalBarChart
 
 @Composable
 fun HomePage(
     viewModel: MainViewModel
 ) {
-    KotinhaTheme {
-        Column(
-            modifier = Modifier.fillMaxSize().background(colorResource(id = R.color.teal_700))
-                .wrapContentSize(Alignment.Center)
-        ) {
+    val ticketList = viewModel.tickets
+    val chartData = if (ticketList.isNotEmpty()) {
+        viewModel.ticketsPorLocal(ticketList)
+    } else {
+        emptyList<Pair<String, Float>>()
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.teal_700))
+            .wrapContentSize(Alignment.Center)
+    ) {
+        if (chartData.isNotEmpty()) {
+            HorizontalBarChart(
+                data = chartData,
+                maxBarValue = viewModel.totalTickets.toFloat()
+            )
+        } else {
             Text(
-                text = viewModel.totalTickets.toString(),
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp
+                text = "Nenhum dado disponível",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
     }
