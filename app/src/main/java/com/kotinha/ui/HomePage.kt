@@ -19,8 +19,7 @@ import com.kotinha.ui.theme.KotinhaTheme
 
 @Composable
 fun HomePage(
-    viewModel: MainViewModel,
-    modifier: Modifier
+    viewModel: MainViewModel
 ) {
     KotinhaTheme {
         Column(

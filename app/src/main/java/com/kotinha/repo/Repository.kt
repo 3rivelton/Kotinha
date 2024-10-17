@@ -16,10 +16,6 @@ class Repository(private var listener: Listener) : FBDatabase.Listener {
         fun onTicketUpdated(ticket: Ticket)
     }
 
-    fun register(userName: String, email: String) {
-        fbDb.register(User(userName, email))
-    }
-
     fun addTicket(ticket: Ticket, fileUri: Uri?) {
         if (fileUri != null) {
             uploadImage(fileUri, { imageUrl ->

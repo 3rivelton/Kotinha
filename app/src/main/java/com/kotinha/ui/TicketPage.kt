@@ -27,10 +27,9 @@ fun TicketPage(ticket: Ticket) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.purple_200))
+            .background(colorResource(id = R.color.teal_700))
     ) {
         Spacer(modifier = Modifier.size(24.dp))
-
         Text(
             text = "Local: ${ticket.local}",
             fontWeight = FontWeight.Bold,

@@ -29,13 +29,13 @@ fun MainNavHost(
     Column(modifier = modifier) {
         NavHost(navController, startDestination = BottomNavItem.HomePageKt.route) {
             composable(route = BottomNavItem.HomePageKt.route) {
-                HomePage(viewModel, modifier)
+                HomePage(viewModel)
             }
             composable(route = BottomNavItem.ListPageKt.route) {
                 ListPage(viewModel, repository, context, navController)
             }
             composable(route = BottomNavItem.UserPageKt.route) {
-                UserPage(viewModel, context)
+                UserPage(viewModel)
             }
             composable("ticket_page/{ticketId}") { backStackEntry ->
                 val ticketId = backStackEntry.arguments?.getString("ticketId")
