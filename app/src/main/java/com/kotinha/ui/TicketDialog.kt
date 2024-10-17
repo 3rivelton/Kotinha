@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import android.icu.util.Calendar
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -120,6 +121,7 @@ fun TicketDialog(
                             local = local.value,
                             valor= valor.value.toDoubleOrNull() ?: 0.00)
                         onConfirm(ticket, imageUri.value)
+                        Toast.makeText(context, "Ticket adicionado", Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
