@@ -1,12 +1,9 @@
 package com.kotinha
 
 import android.os.Bundle
-import android.Manifest
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -50,7 +47,6 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.route != BottomNavItem.UserPageKt.route
-            val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
             val repo = remember { Repository (viewModel) }
             val modifier = Modifier
             KotinhaTheme {
@@ -63,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Bem-vindo/a ${viewModel.user.name}") },
+                            title = { Text("${viewModel.user.name}") },
                             actions = {
                                 IconButton( onClick = {
                                     Firebase.auth.signOut()
@@ -89,7 +85,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                         innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                         MainNavHost(
                             navController = navController,
                             viewModel = viewModel,

@@ -1,0 +1,8 @@
+kotlinx.parcelize.IgnoredOnParcel
+kotlinx.parcelize.Parceler
+kotlinx.parcelize.Parceler$DefaultImpls
+kotlinx.parcelize.Parcelize
+kotlinx.parcelize.RawValue
+kotlinx.parcelize.TypeParceler
+kotlinx.parcelize.TypeParceler$Container
+kotlinx.parcelize.WriteWith
